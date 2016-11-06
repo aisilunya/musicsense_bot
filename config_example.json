@@ -1,0 +1,10 @@
+{
+  "telegram": {
+    "token": "Your token"
+  },
+  "musicsense":{
+    "url":"http://web.musicsense.me",
+    "username": "Your username",
+    "password":"Your password"
+  }
+}
