@@ -36,8 +36,8 @@ def suggest_buttons(message):
     suggests = musicsense_client.musicfeed_suggest(query, limit=5)
     keyboard = types.InlineKeyboardMarkup()
 
-    if len(suggests['items']) != 0:
-        for suggest in suggests['items']:
+    if len(suggests['data']['items']) != 0:
+        for suggest in suggests['data']['items']:
 
             if suggest["type"] == "TRACK":
                 text = "{artist}~{title}".format(artist=suggest['artist'], title=suggest['title'])
@@ -75,7 +75,7 @@ def call_back_handler(call):
 def generate(data, chat_id):
     songs = musicsense_client.helper_generate_songs('track', data['artist'], data['title'], 'track', limit=5)
     keyboard = types.InlineKeyboardMarkup()
-    for song in songs['items']:
+    for song in songs['data']['items']:
         text = "{artist}~{title}".format(artist=song['artist'], title=song['title'])
         button_key = str(uid.uuid4())
         call_data = button_key
@@ -91,7 +91,7 @@ def generate(data, chat_id):
 def download_send(data, chat_id):
     stream = musicsense_client.musicfeed_stream(data['sound_track_id'])
     ms_bot.send_audio(chat_id,
-                      audio=stream.read(),
+                      audio=(stream['data']).read(),
                       duration=data['duration'],
                       title="{artist} {track} {album}".format(artist=data['artist'],
                                                               track=data['title'],

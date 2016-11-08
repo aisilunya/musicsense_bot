@@ -30,8 +30,10 @@ class Musicsenseclient():
         url = '%s/api/musicfeed/suggest' % self.host
         response = requests.post(url, data={'limit': limit, 'tracksEnabled': tracksEnabled, 'q': q},
                                  cookies=self.cookies)
+        suggest = {}
+        suggest['data'] = json.loads(response.text)
 
-        return json.loads(response.text)
+        return suggest
 
     def musicfeed_generate(self, type, artist, title, typeSource):
         time_now = dt.datetime.now()
@@ -48,25 +50,31 @@ class Musicsenseclient():
         headers = {}
         headers['Content-Type'] = 'application/json'
         response = requests.post(url, data=payload, cookies=self.cookies, headers=headers)
+        generate = {}
+        generate['data'] = json.loads(response.text)
 
-        return json.loads(response.text)
+        return generate
 
     def musicfeed_songs(self, feed_id, limit=20, offset=0):
         url = '{host}/api/musicfeed/{feed_id}/songs'.format(host=self.host, feed_id=feed_id)
         payload = {'limit': limit, 'offset': offset}
         response = requests.post(url, data=payload, cookies=self.cookies)
+        songs = {}
+        songs['data'] = json.loads(response.text)
 
-        return json.loads(response.text)
+        return songs
 
     def musicfeed_stream(self, id):
         url = '{host}/api/music/stream/{id}'.format(host=self.host, id=id)
         response = requests.get(url, cookies=self.cookies, stream=True)
+        stream = {}
+        stream['data'] = response.raw
 
-        return response.raw
+        return stream
 
     def helper_generate_songs(self, type, artist, title, typeSource, limit=20, offset=0):
         generate = self.musicfeed_generate(type, artist, title, typeSource)
-        feed_id = generate["result"]
+        feed_id = generate['data']["result"]
         songs = self.musicfeed_songs(feed_id, limit, offset)
         
         return songs
