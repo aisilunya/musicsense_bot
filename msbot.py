@@ -73,7 +73,7 @@ def call_back_handler(call):
 
 
 def generate(data, chat_id):
-    songs = musicsense_client.helper_generate_songs('track', data['artist'], data['title'], 'track', limit = 5)
+    songs = musicsense_client.helper_generate_songs('track', data['artist'], data['title'], 'track', limit=5)
     keyboard = types.InlineKeyboardMarkup()
     for song in songs['items']:
         text = "{artist}~{title}".format(artist=song['artist'], title=song['title'])
