@@ -1,0 +1,6 @@
+###### Requirements with Version Specifiers ######
+uuid==1.30
+PyTelegramBotAPI==2.2.3          # See https://github.com/eternnoir/pyTelegramBotAPI
+python-dateutil==2.5.3           # Must be 2.6.0, see https://dateutil.readthedocs.io
+redis==2.10.5                    # See http://github.com/andymccurdy/redis-py
+requests==2.10.0                 # Must be 2.11.1, see http://python-requests.org
