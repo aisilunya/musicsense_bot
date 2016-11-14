@@ -17,6 +17,7 @@ ms_bot = telebot.TeleBot(token)
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
+musicsenseapi.Musicsenseclient.ping()
 musicsense_client = musicsenseapi.Musicsenseclient(url, username, password)
 musicsense_client.login()
 
@@ -90,13 +91,17 @@ def generate(data, chat_id):
 
 def download_send(data, chat_id):
     stream = musicsense_client.musicfeed_stream(data['sound_track_id'])
+    artist=data['artist']
+    track=data['title']
+    album= data['album'] if data['album'] else ''
     ms_bot.send_audio(chat_id,
-                      audio=(stream['data']).read(),
-                      duration=data['duration'],
-                      title="{artist} {track} {album}".format(artist=data['artist'],
-                                                              track=data['title'],
-                                                              album=data['album']),
-                      timeout=600)
+                            audio=(stream['data']).read(),
+                            duration=data['duration'],
+                            title="{artist} {track} {album}".format(artist=artist,
+                                                                    track=track,
+                                                                    album=album),
+                            timeout=600)
+
 
 
 if __name__ == '__main__':
