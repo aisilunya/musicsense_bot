@@ -13,6 +13,13 @@ class Musicsenseclient():
         self.context = {"time": "2016-11-01 14:10:45", "ip": '8.8.8.8', "location": "disabled", "locale": "en-US",
                         "device": "browser"}
 
+    def ping(host='http://musicsense.me'):
+        url= '%s/api/ping' % host
+        response = requests.get(url=url)
+        if response.status_code == 200:
+            return True
+        return False
+
     def login(self):
 
         url = '%s/api/users/login' % self.host
@@ -29,7 +36,7 @@ class Musicsenseclient():
     def musicfeed_suggest(self, q, tracksEnabled=True, limit=20):
         url = '%s/api/musicfeed/suggest' % self.host
         response = requests.post(url, data={'limit': limit, 'tracksEnabled': tracksEnabled, 'q': q},
-                                 cookies=self.cookies)
+                                        cookies=self.cookies)
         suggest = {}
         suggest['data'] = json.loads(response.text)
 
@@ -78,6 +85,7 @@ class Musicsenseclient():
         songs = self.musicfeed_songs(feed_id, limit, offset)
         
         return songs
+
 
 
 
